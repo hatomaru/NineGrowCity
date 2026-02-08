@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class GameLoopManager : MonoBehaviour
 {
-    const int kMaxTurn = 3;
+    public const int kMaxTurn = 3;
 
     [SerializeField] UILayerManager uILayerManager;
     [SerializeField] AIBridge aiBridge;
     [SerializeField] CityManager cityManager;
     [SerializeField] GrowSceneManager growSceneManager;
+    [SerializeField] HUDObjectManager hudManager;
+    [SerializeField] PlaceDatabase placeDatabase;
 
     public static int score = 0;
-    public static int bonusMultiplier = 1;
+    public static float bonusMultiplier = 1;
     public static int turn = 2;
+
+    public static int beforeScore = 0;
+    public static float beforeBonusMultiplier = 1;
 
     string setGenre = "";
     void Start()
@@ -24,7 +29,7 @@ public class GameLoopManager : MonoBehaviour
     void Update()
     {
         Debug.Log($"現在は{StateManager.status.ToString()}です。");
-        switch(StateManager.status)
+        switch (StateManager.status)
         {
             case GameState.Title:
                 // タイトル画面の処理
@@ -49,6 +54,14 @@ public class GameLoopManager : MonoBehaviour
     /// </summary>
     public async void OnGameStaet()
     {
+        // ゲーム開始時の初期化処理
+        turn = 1;
+        score = 0;
+        bonusMultiplier = 1;
+        beforeBonusMultiplier = 0;
+        beforeScore = 0;
+        hudManager.RefreshUI();
+
         uILayerManager.AllOffUILayer();
         uILayerManager.OnUILayer(UILayer.HUD);
         await cityManager.AllHideCity(destroyCancellationToken);
@@ -79,6 +92,8 @@ public class GameLoopManager : MonoBehaviour
                 uILayerManager.OffUILayer(UILayer.Ask);
                 uILayerManager.OnUILayer(UILayer.Generate);
                 setGenre = await aiBridge.GenCityGenre(destroyCancellationToken);
+                // 街を生成
+                await cityManager.GenCity(destroyCancellationToken, placeDatabase.GetPlaceData(PlaceKey.Forest));
                 ToNextStatus();
                 break;
             case GameState.Grow:
@@ -113,7 +128,7 @@ public class GameLoopManager : MonoBehaviour
                 break;
             case GameState.Grow:
                 // 成長フェーズが終了したら、ターン数に応じて結果画面か次のターンへ移行
-                if (turn > kMaxTurn)
+                if (turn >= kMaxTurn)
                 {
                     ChangeStatus(GameState.Result);
                 }

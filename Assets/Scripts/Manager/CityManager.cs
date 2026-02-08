@@ -21,6 +21,7 @@ public class CityManager : MonoBehaviour
 
     public async UniTask AllHideCity(CancellationToken token)
     {
+        selectCity = 0;
         foreach (var cityPlace in cityPlaces)
         {
             if(cityPlace.currentcityPrefab == null)
@@ -45,6 +46,7 @@ public class CityManager : MonoBehaviour
             return;
         }
         await cityPlaces[selectCity].GenCity(token, testCity);
+        selectCity++;
     }
 
     /// <summary>
