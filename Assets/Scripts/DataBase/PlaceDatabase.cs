@@ -5,7 +5,7 @@ public class PlaceDatabase : MonoBehaviour
     [SerializeField] PlaceData[] placeDatas;
 
     /// <summary>
-    /// 指定したキーに対応する土地データを取得する
+    /// 指定したキーに対応する建物データを取得する
     /// </summary>
     /// <param name="key">検索したいキー</param>
     /// <returns>検索結果</returns>

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 土地のキーを定義
+/// 建物のキーを定義
 /// </summary>
 public enum PlaceKey
 {
@@ -10,7 +10,7 @@ public enum PlaceKey
 }
 
 /// <summary>
-/// 土地のデータを定義
+/// 建物のデータを定義
 /// </summary>
 [CreateAssetMenu(fileName = "PlaceData", menuName = "Data/PlaceData")]
 public class PlaceData : ScriptableObject

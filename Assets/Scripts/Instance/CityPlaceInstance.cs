@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System.Threading;
 using UnityEngine;
 
 public class CityPlaceInstance : MonoBehaviour
@@ -11,31 +13,44 @@ public class CityPlaceInstance : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(testCity != null)
+        if (testCity != null)
         {
-            GenCity(testCity);
+            //GenCity(testCity);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void GenCity(GameObject obj)
+    public async UniTask HideCity(CancellationToken token, GameObject obj)
     {
+        currentcityPrefab.transform.DOLocalMoveY(-1.5f, delation * 0.4f).SetEase(Ease.InOutBack);
+        currentcityPrefab.transform.DOScale(Vector3.zero, delation * 0.5f).SetEase(Ease.InOutBack).SetDelay(delation * 0.2f);
+        await UniTask.Delay((int)(delation * 1000 * 0.4f), cancellationToken: token);
+    }
+
+    public async UniTask GenCity(CancellationToken token, GameObject obj)
+    {
+        if (currentcityPrefab != null)
+        {
+            await HideCity(token, currentcityPrefab);
+            Destroy(currentcityPrefab);
+            currentcityPrefab = null;
+        }
         GameObject city = Instantiate(obj, new Vector3(0, 0, 0), Quaternion.identity);
         city.transform.SetParent(gameObject.transform);
         long cityId = 0;
-        foreach(Transform parent in city.transform.parent.gameObject.GetComponentsInChildren<Transform>())
+        foreach (Transform parent in city.transform.parent.gameObject.GetComponentsInChildren<Transform>())
         {
-            if(parent != city.transform && !parent.gameObject.CompareTag("Plane"))
+            if (parent != city.transform && !parent.gameObject.CompareTag("Plane"))
             {
                 Vector3 scale = parent.transform.localScale;
                 parent.transform.localScale = Vector3.zero;
                 cityId++;
-                parent.transform.DOScale(scale, (delation * 0.8f) * Random.Range(0.8f,1.5f)).SetEase(Ease.InOutBack).SetDelay(delation * 0.6f + ((delation * 0.02f) * cityId));
+                parent.transform.DOScale(scale, (delation * 0.8f) * Random.Range(0.8f, 1.5f)).SetEase(Ease.InOutBack).SetDelay(delation * 0.6f + ((delation * 0.02f) * cityId));
             }
         }
         Vector3 localPos = new Vector3(-0.00941732153f, 6.91865826f, -0.00412968826f);
@@ -46,5 +61,6 @@ public class CityPlaceInstance : MonoBehaviour
         city.transform.DOScale(defaultScale * 0.8f, delation * 0.2f).SetEase(Ease.InOutExpo);
         city.transform.DOScale(defaultScale, delation * 0.8f).SetEase(Ease.InOutBack).SetDelay(delation * 0.2f);
         currentcityPrefab = city;
+        await UniTask.Delay((int)(delation * 1000), cancellationToken: token);
     }
 }

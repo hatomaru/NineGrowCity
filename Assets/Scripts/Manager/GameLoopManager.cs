@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameLoopManager : MonoBehaviour
 {
     [SerializeField] UILayerManager uILayerManager;
+    [SerializeField] AIBridge aiBridge;
 
     void Start()
     {
@@ -38,7 +39,7 @@ public class GameLoopManager : MonoBehaviour
     /// 状態切り替え時に処理を行う
     /// </summary>
     /// <param name="gameState">変更後の状態</param>
-    public void ChangeStatus(GameState gameState)
+    public async void ChangeStatus(GameState gameState)
     {
         StateManager.ChangeState(gameState);
         switch (gameState)
@@ -49,13 +50,17 @@ public class GameLoopManager : MonoBehaviour
                 uILayerManager.OnUILayer(UILayer.Title);
                 break;
             case GameState.Ask:
+                Debug.Log("質問画面に切り替えます。");
                 // 質問画面に切り替えたときの処理
                 uILayerManager.OffUILayer(UILayer.Title);
                 uILayerManager.OnUILayer(UILayer.Ask);
                 break;
             case GameState.Generate:
                 // 生成画面に切り替えたときの処理                
+                uILayerManager.OffUILayer(UILayer.Ask);
                 uILayerManager.OnUILayer(UILayer.Generate);
+                await aiBridge.GenCityGenre(destroyCancellationToken);
+                ToNextStatus();
                 break;
             case GameState.Grow:
                 // 成長画面に切り替えたときの処理
@@ -77,19 +82,19 @@ public class GameLoopManager : MonoBehaviour
         switch (StateManager.status)
         {
             case GameState.Title:
-                StateManager.ChangeState(GameState.Ask);
+                ChangeStatus(GameState.Ask);
                 break;
             case GameState.Ask:
-                StateManager.ChangeState(GameState.Generate);
+                ChangeStatus(GameState.Generate);
                 break;
             case GameState.Generate:
-                StateManager.ChangeState(GameState.Grow);
+                ChangeStatus(GameState.Grow);
                 break;
             case GameState.Grow:
-                StateManager.ChangeState(GameState.Result);
+                ChangeStatus(GameState.Result);
                 break;
             case GameState.Result:
-                StateManager.ChangeState(GameState.Title);
+                ChangeStatus(GameState.Title);
                 break;
         }
     }
