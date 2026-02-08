@@ -8,6 +8,7 @@ public class CityPlaceInstance : MonoBehaviour
     readonly float delation = 0.4f;
     readonly Vector3 defaultScale = new Vector3(0.0521533787f, 1.50971627f, 0.0533473007f);
     [SerializeField] GameObject testCity;
+    public PlaceData placeData { private set; get; }
     public GameObject currentcityPrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,22 +26,22 @@ public class CityPlaceInstance : MonoBehaviour
 
     }
 
-    public async UniTask HideCity(CancellationToken token, GameObject obj)
+    public async UniTask HideCity(CancellationToken token)
     {
         currentcityPrefab.transform.DOLocalMoveY(-1.5f, delation * 0.4f).SetEase(Ease.InOutBack);
         currentcityPrefab.transform.DOScale(Vector3.zero, delation * 0.5f).SetEase(Ease.InOutBack).SetDelay(delation * 0.2f);
         await UniTask.Delay((int)(delation * 1000 * 0.4f), cancellationToken: token);
     }
 
-    public async UniTask GenCity(CancellationToken token, GameObject obj)
+    public async UniTask GenCity(CancellationToken token, PlaceData data)
     {
         if (currentcityPrefab != null)
         {
-            await HideCity(token, currentcityPrefab);
+            await HideCity(token);
             Destroy(currentcityPrefab);
             currentcityPrefab = null;
         }
-        GameObject city = Instantiate(obj, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject city = Instantiate(data.obj, new Vector3(0, 0, 0), Quaternion.identity);
         city.transform.SetParent(gameObject.transform);
         long cityId = 0;
         foreach (Transform parent in city.transform.parent.gameObject.GetComponentsInChildren<Transform>())

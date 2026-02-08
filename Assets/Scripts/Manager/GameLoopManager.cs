@@ -2,9 +2,18 @@ using UnityEngine;
 
 public class GameLoopManager : MonoBehaviour
 {
+    const int kMaxTurn = 3;
+
     [SerializeField] UILayerManager uILayerManager;
     [SerializeField] AIBridge aiBridge;
+    [SerializeField] CityManager cityManager;
+    [SerializeField] GrowSceneManager growSceneManager;
 
+    public static int score = 0;
+    public static int bonusMultiplier = 1;
+    public static int turn = 2;
+
+    string setGenre = "";
     void Start()
     {
         // 初期状態をタイトルに設定
@@ -36,6 +45,17 @@ public class GameLoopManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ゲーム開始時の処理
+    /// </summary>
+    public async void OnGameStaet()
+    {
+        uILayerManager.AllOffUILayer();
+        uILayerManager.OnUILayer(UILayer.HUD);
+        await cityManager.AllHideCity(destroyCancellationToken);
+        ChangeStatus(GameState.Ask);
+    }
+
+    /// <summary>
     /// 状態切り替え時に処理を行う
     /// </summary>
     /// <param name="gameState">変更後の状態</param>
@@ -52,19 +72,20 @@ public class GameLoopManager : MonoBehaviour
             case GameState.Ask:
                 Debug.Log("質問画面に切り替えます。");
                 // 質問画面に切り替えたときの処理
-                uILayerManager.OffUILayer(UILayer.Title);
                 uILayerManager.OnUILayer(UILayer.Ask);
                 break;
             case GameState.Generate:
                 // 生成画面に切り替えたときの処理                
                 uILayerManager.OffUILayer(UILayer.Ask);
                 uILayerManager.OnUILayer(UILayer.Generate);
-                await aiBridge.GenCityGenre(destroyCancellationToken);
+                setGenre = await aiBridge.GenCityGenre(destroyCancellationToken);
                 ToNextStatus();
                 break;
             case GameState.Grow:
                 // 成長画面に切り替えたときの処理
                 uILayerManager.OffUILayer(UILayer.Generate);
+                await growSceneManager.GrowLoop(destroyCancellationToken);
+                ToNextStatus();
                 break;
             case GameState.Result:
                 // 結果画面に切り替えたときの処理
@@ -91,7 +112,16 @@ public class GameLoopManager : MonoBehaviour
                 ChangeStatus(GameState.Grow);
                 break;
             case GameState.Grow:
-                ChangeStatus(GameState.Result);
+                // 成長フェーズが終了したら、ターン数に応じて結果画面か次のターンへ移行
+                if (turn > kMaxTurn)
+                {
+                    ChangeStatus(GameState.Result);
+                }
+                else
+                {
+                    turn++;
+                    ChangeStatus(GameState.Ask);
+                }
                 break;
             case GameState.Result:
                 ChangeStatus(GameState.Title);

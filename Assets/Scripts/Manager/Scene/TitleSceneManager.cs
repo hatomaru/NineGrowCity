@@ -11,6 +11,6 @@ public class TitleSceneManager : MonoBehaviour
 
     public void OnGameStart()
     {
-        manager.ToNextStatus();
+        manager.OnGameStaet();
     }
 }
