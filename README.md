@@ -41,10 +41,6 @@ AI is used in the following limited and controlled ways:
    When the city evolves, the AI outputs short textual descriptions that explain
    the change in a human-readable way, reflecting the interpreted intent.
 
-3. **Final Evaluation**  
-   At the end of the game, the AI generates a summary comment based on the city's
-   final state and score, describing what kind of city has emerged.
-
 > The AI does **not** generate core game logic.  
 > All rules, scoring, and progression systems are implemented deterministically in code.
 
