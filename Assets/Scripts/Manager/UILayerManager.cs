@@ -16,14 +16,16 @@ public class UILayerManager : MonoBehaviour
 {
     [SerializeField] GameObject[] uiLayers;
 
-    private void Awake()
+    /// <summary>
+    /// 全てのUIレイヤーを非表示にする
+    /// </summary>
+    public void AllOffUILayer()
     {
         // 全てのUIレイヤーを非表示にする
         foreach (var layer in uiLayers)
         {
             layer.SetActive(false);
         }
-        OnUILayer(UILayer.Title);
     }
 
     /// <summary>
@@ -41,6 +43,6 @@ public class UILayerManager : MonoBehaviour
     /// <param name="layer">対象のレイヤー</param>
     public void OffUILayer(UILayer layer)
     {
-        uiLayers[(int)layer].SetActive(true);
+        uiLayers[(int)layer].SetActive(false);
     }
 }
