@@ -103,3 +103,6 @@ Assets/InputSystem_Actions.inputactions
 .vsconfig
 /Packages
 NineGrowCity.slnx
+/Assets/AIDrivenFW
+/Assets/StandaloneFileBrowser
+Assets/StandaloneFileBrowser.meta
