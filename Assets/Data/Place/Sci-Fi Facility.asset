@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca8d01887736fa24c889e9c4d3a8f958, type: 3}
-  m_Name: Ferris_wheel
+  m_Name: Sci-Fi Facility
   m_EditorClassIdentifier: Assembly-CSharp::PlaceData
-  key: 0
-  obj: {fileID: 6031423737317379155, guid: 5c0785fa8d424d14b9eb649bd65296e3, type: 3}
-  name: Ferris_wheel
-  data: 
-  description: A giant wheel that offers a panoramic view of the city.
-  pointValue: 60
+  key: 21
+  obj: {fileID: 3787831092494151596, guid: c712534db8a26df479306f968e3cecf8, type: 3}
+  name: Sci-Fi Facility
+  data: Sci-Fi Facility
+  description: A futuristic site filled with advanced technology.
+  pointValue: 150

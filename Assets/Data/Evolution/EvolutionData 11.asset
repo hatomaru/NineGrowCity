@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e38bfff78300834993860ed38875bae, type: 3}
-  m_Name: EvolutionData
+  m_Name: EvolutionData 11
   m_EditorClassIdentifier: Assembly-CSharp::EvolutionData
   basePlace: {fileID: 11400000, guid: 51a9c25b2164e244e8ae573a3f355b18, type: 2}
-  resourcePlace: {fileID: 11400000, guid: 7797ac8fc0aa6d940942a1f471da8b79, type: 2}
-  toPlace: {fileID: 11400000, guid: a6b3fac4a93df7641a8d750323134f6d, type: 2}
-  reason: Resource extraction damages nature and causes opposition
-  ava: -0.08
+  resourcePlace: {fileID: 11400000, guid: 230dd5a0ca066e344a4fc69c6938c1b3, type: 2}
+  toPlace: {fileID: 11400000, guid: 230dd5a0ca066e344a4fc69c6938c1b3, type: 2}
+  reason: Tourism grows, but nature is damaged
+  ava: -0.03

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e38bfff78300834993860ed38875bae, type: 3}
-  m_Name: EvolutionData
+  m_Name: EvolutionData 9
   m_EditorClassIdentifier: Assembly-CSharp::EvolutionData
-  basePlace: {fileID: 11400000, guid: 51a9c25b2164e244e8ae573a3f355b18, type: 2}
-  resourcePlace: {fileID: 11400000, guid: 7797ac8fc0aa6d940942a1f471da8b79, type: 2}
-  toPlace: {fileID: 11400000, guid: a6b3fac4a93df7641a8d750323134f6d, type: 2}
-  reason: Resource extraction damages nature and causes opposition
-  ava: -0.08
+  basePlace: {fileID: 11400000, guid: 4b0047d0d7769d34ebac39b1c0987eb5, type: 2}
+  resourcePlace: {fileID: 11400000, guid: 1bb2cd2a5e8b0ea488533c4ed3f8b742, type: 2}
+  toPlace: {fileID: 11400000, guid: 1bb2cd2a5e8b0ea488533c4ed3f8b742, type: 2}
+  reason: Prestige rises, but inequality grows
+  ava: 0.08

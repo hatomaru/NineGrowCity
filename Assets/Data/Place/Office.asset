@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca8d01887736fa24c889e9c4d3a8f958, type: 3}
-  m_Name: Ferris_wheel
+  m_Name: Office
   m_EditorClassIdentifier: Assembly-CSharp::PlaceData
-  key: 0
-  obj: {fileID: 6031423737317379155, guid: 5c0785fa8d424d14b9eb649bd65296e3, type: 3}
-  name: Ferris_wheel
-  data: 
-  description: A giant wheel that offers a panoramic view of the city.
-  pointValue: 60
+  key: 17
+  obj: {fileID: 6153161641695123554, guid: d4149c32d9902be47b80d17d42277c7a, type: 3}
+  name: Office
+  data: Office
+  description: A modern space where people work and manage tasks.
+  pointValue: 160

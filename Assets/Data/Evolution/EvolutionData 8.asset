@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e38bfff78300834993860ed38875bae, type: 3}
-  m_Name: EvolutionData
+  m_Name: EvolutionData 8
   m_EditorClassIdentifier: Assembly-CSharp::EvolutionData
-  basePlace: {fileID: 11400000, guid: 51a9c25b2164e244e8ae573a3f355b18, type: 2}
-  resourcePlace: {fileID: 11400000, guid: 7797ac8fc0aa6d940942a1f471da8b79, type: 2}
-  toPlace: {fileID: 11400000, guid: a6b3fac4a93df7641a8d750323134f6d, type: 2}
-  reason: Resource extraction damages nature and causes opposition
-  ava: -0.08
+  basePlace: {fileID: 11400000, guid: ef243f8224235fe47a68914fe10c1f95, type: 2}
+  resourcePlace: {fileID: 11400000, guid: c81bc1a1b59c6804081eeb251a89e58b, type: 2}
+  toPlace: {fileID: 11400000, guid: c81bc1a1b59c6804081eeb251a89e58b, type: 2}
+  reason: Demand rises, but maintenance is expensive
+  ava: 0.14
