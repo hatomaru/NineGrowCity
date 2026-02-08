@@ -7,6 +7,9 @@ public class CityManager : MonoBehaviour
     int selectCity = 0;
     public CityPlaceInstance[] cityPlaces;
     [SerializeField] PlaceData testCity;
+    [SerializeField] NotificationManager notificationManager;
+    [SerializeField] HUDObjectManager hudManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +48,7 @@ public class CityManager : MonoBehaviour
             Debug.LogError($"指定された都市エリアのインデックスが不正です。：{selectCity}");
             return;
         }
+        notificationManager.Run($"{data.name} was built");
         await cityPlaces[selectCity].GenCity(token, data);
         selectCity++;
     }

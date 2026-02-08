@@ -29,6 +29,7 @@ public class CityPlaceInstance : MonoBehaviour
         {
             return;
         }
+        currentcityPrefab.transform.DOKill();
         currentcityPrefab.transform.DOLocalMoveY(-1.5f, delation * 0.4f).SetEase(Ease.InOutBack);
         currentcityPrefab.transform.DOScale(Vector3.zero, delation * 0.5f).SetEase(Ease.InOutBack).SetDelay(delation * 0.2f)
             .OnComplete(() => { 
@@ -46,6 +47,7 @@ public class CityPlaceInstance : MonoBehaviour
             await HideCity(token);
             currentcityPrefab = null;
         }
+        placeData = data;
         GameObject city = Instantiate(data.obj, new Vector3(0, 0, 0), Quaternion.identity);
         city.transform.SetParent(gameObject.transform);
         long cityId = 0;

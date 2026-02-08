@@ -10,6 +10,8 @@ public class GrowSceneManager : MonoBehaviour
     [SerializeField]CityManager cityManager;
     [SerializeField]PlaceDatabase placeDatabase;
     [SerializeField]HUDObjectManager hudManager;
+    [SerializeField] AIBridge aiBridge;
+    [SerializeField] NotificationManager notification;
 
     void Awake()
     {
@@ -38,13 +40,14 @@ public class GrowSceneManager : MonoBehaviour
                     GameLoopManager.score += 100;
                     GameLoopManager.bonusMultiplier += 0.1f;
                     hudManager.RefreshUI();
-                    await cityManager.GrowCity(token, i, placeDatabase.GetPlaceData(PlaceKey.Forest));
+                    string reaason = await aiBridge.GenReasone(token, $"{nextPlace.name}.");
+                    notification.Run(reaason);
+                    await cityManager.GrowCity(token, i, nextPlace);
                     Debug.Log($"{i + 1}回目の成長が完了しました。");
                     isGrowing = true;
                     await UniTask.Delay(150, cancellationToken: token);
                 }
             }
-            isGrowing = false;
             await UniTask.Delay(500, cancellationToken: token);
         }
     }
@@ -97,7 +100,8 @@ public class GrowSceneManager : MonoBehaviour
             return null;
         }
         // TODO:進化条件を満たす建物があるか確認
-
-        return placeDatabase.GetPlaceData(PlaceKey.Forest);
+        Debug.Log($"index:{index}の建物は進化条件を満たしています。");
+        return null;
+        return placeDatabase.GetPlaceData(PlaceKey.Ice_city);
     }
 }

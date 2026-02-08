@@ -29,7 +29,7 @@ public class AIBridge : MonoBehaviour
         genCityConfig.arguments = $"--gpu-layers 80 --batch-size 16 --prio 2 --keep 0 -cnv " + $"--grammar-file {Path.Combine(Application.streamingAssetsPath,"Gbnf", "citygen_grammar.gbnf")}";
         genCityConfig.sysPrompt = $"ユーザーの入力した文脈から0以上{placeDatabase.placeDatas.Length - 1}以下で、整数のみを回答して 以降は参考材料です。" + baseData;
         string response = await GenAI.Generate(
-            "こんにちは",
+            input,
             genAIConfig: genCityConfig,
             ct: destroyCancellationToken
         );
@@ -37,5 +37,24 @@ public class AIBridge : MonoBehaviour
         Debug.Log($"[AIBridge] GenCityGenre Response: {response}");
 
         return int.Parse(response);
+    }
+
+    /// <summary>
+    /// 理由を生成する
+    /// </summary>
+    /// <parm=input>入力</parm>
+    /// <returns>理由のテキスト</returns>
+    public async UniTask<string> GenReasone(CancellationToken token, string input)
+    {
+        reasonConfig.sysPrompt = $"与えた入力からプレイヤーを楽しませる都市開発実況の一文を{"英語"}で出力してください。";
+        string response = await GenAI.Generate(
+            input,
+            genAIConfig: reasonConfig,
+            ct: destroyCancellationToken
+        );
+
+        Debug.Log($"[AIBridge] GenCityGenre Response: {response}");
+
+        return response;
     }
 }
