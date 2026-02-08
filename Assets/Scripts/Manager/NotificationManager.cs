@@ -26,7 +26,7 @@ public class NotificationManager : MonoBehaviour
         rect.DOAnchorPosY(-446, 0.3f).SetEase(Ease.OutCubic)
             .OnComplete(() =>
             {
-                rect.DOAnchorPosY(-738, 0.45f).SetEase(Ease.InCubic).SetDelay(2.0f);
+                rect.DOAnchorPosY(-738, 0.45f).SetEase(Ease.InCubic).SetDelay(4.0f);
             });
     }
 }

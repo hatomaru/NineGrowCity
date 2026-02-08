@@ -19,4 +19,5 @@ public class PlaceData : ScriptableObject
     public string name;
     public string data;
     public string description;
+    public int pointValue;
 }

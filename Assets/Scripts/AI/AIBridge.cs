@@ -13,9 +13,13 @@ public class AIBridge : MonoBehaviour
 
     private void Start()
     {
-        foreach(var place in placeDatabase.placeDatas)
+        foreach (var place in placeDatabase.placeDatas)
         {
-            baseData += $",Id: {place.key} Name：{place.name} Detail：{place.description}";
+            baseData +=
+    $@"
+[{place.key}]
+説明: {place.description}
+";
         }
     }
 
@@ -26,8 +30,8 @@ public class AIBridge : MonoBehaviour
     /// <returns>設置する建物のID</returns>
     public async UniTask<int> GenCityGenre(CancellationToken token,string input)
     {
-        genCityConfig.arguments = $"--gpu-layers 80 --batch-size 16 --prio 2 --keep 0 -cnv " + $"--grammar-file {Path.Combine(Application.streamingAssetsPath,"Gbnf", "citygen_grammar.gbnf")}";
-        genCityConfig.sysPrompt = $"ユーザーの入力した文脈から0以上{placeDatabase.placeDatas.Length - 1}以下で、整数のみを回答して 以降は参考材料です。" + baseData;
+        genCityConfig.arguments = $"--gpu-layers 80 --batch-size 32 --prio 2 --keep 0 -cnv --temp 1.1 --top-p 0.8 " + $"--grammar-file {Path.Combine(Application.streamingAssetsPath,"Gbnf", "citygen_grammar.gbnf")}";
+        genCityConfig.sysPrompt = $"あなたは分類器です。ユーザーの入力文を読み、以下の建物候補の中から、意味的に最も近い建物IDを1つ選びます。\r\n\r\n# 建物候補" + baseData;
         string response = await GenAI.Generate(
             input,
             genAIConfig: genCityConfig,
@@ -46,7 +50,7 @@ public class AIBridge : MonoBehaviour
     /// <returns>理由のテキスト</returns>
     public async UniTask<string> GenReasone(CancellationToken token, string input)
     {
-        reasonConfig.sysPrompt = $"与えた入力からプレイヤーを楽しませる都市開発実況の一文を{"英語"}で出力してください。";
+        reasonConfig.sysPrompt = $"You are an observer AI describing the result of city growth.Do not explain. Just comment briefly.";
         string response = await GenAI.Generate(
             input,
             genAIConfig: reasonConfig,

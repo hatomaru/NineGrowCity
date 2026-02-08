@@ -9,6 +9,7 @@ public class CityManager : MonoBehaviour
     [SerializeField] PlaceData testCity;
     [SerializeField] NotificationManager notificationManager;
     [SerializeField] HUDObjectManager hudManager;
+    [SerializeField] AIBridge aiBridge;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,7 +49,11 @@ public class CityManager : MonoBehaviour
             Debug.LogError($"指定された都市エリアのインデックスが不正です。：{selectCity}");
             return;
         }
-        notificationManager.Run($"{data.name} was built");
+        string reaason = await aiBridge.GenReasone(token, $"{data.name + "," + data.description}.");
+        //notificationManager.Run($"{data.name} was built");
+        notificationManager.Run(reaason);
+        GameLoopManager.score += data.pointValue;
+        hudManager.RefreshUI();
         await cityPlaces[selectCity].GenCity(token, data);
         selectCity++;
     }

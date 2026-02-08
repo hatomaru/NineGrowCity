@@ -12,6 +12,7 @@ public class GrowSceneManager : MonoBehaviour
     [SerializeField]HUDObjectManager hudManager;
     [SerializeField] AIBridge aiBridge;
     [SerializeField] NotificationManager notification;
+    [SerializeField] EvolutionDatabase evolutionDatabase;
 
     void Awake()
     {
@@ -33,16 +34,20 @@ public class GrowSceneManager : MonoBehaviour
             {
                 Debug.Log($"{i + 1}回目の成長を開始します。");
                 // 成長判定
-                PlaceData nextPlace = GetGrowPlace(i);
+                EvolutionData nextPlace = GetGrowPlace(i);
                 if (nextPlace != null)
                 {
                     // 成長処理
                     GameLoopManager.score += 100;
                     GameLoopManager.bonusMultiplier += 0.1f;
                     hudManager.RefreshUI();
-                    string reaason = await aiBridge.GenReasone(token, $"{nextPlace.name}.");
+                    string reaason = await aiBridge.GenReasone(token, $"{nextPlace.reason}.");
                     notification.Run(reaason);
-                    await cityManager.GrowCity(token, i, nextPlace);
+                    GameLoopManager.score -= nextPlace.basePlace.pointValue;
+                    GameLoopManager.score += nextPlace.toPlace.pointValue;
+                    GameLoopManager.bonusMultiplier += nextPlace.ava;
+                    hudManager.RefreshUI();
+                    await cityManager.GrowCity(token, i, nextPlace.toPlace);
                     Debug.Log($"{i + 1}回目の成長が完了しました。");
                     isGrowing = true;
                     await UniTask.Delay(150, cancellationToken: token);
@@ -57,7 +62,7 @@ public class GrowSceneManager : MonoBehaviour
     /// </summary>
     /// <param name="index">土地インデックス</param>
     /// <returns>進化後の建物データ</returns>
-    public PlaceData GetGrowPlace(int index)
+    public EvolutionData GetGrowPlace(int index)
     {
         PlaceData currentPlace = cityManager.cityPlaces[index].placeData;
         List<PlaceData> CheckPlaceList = new List<PlaceData>();
@@ -99,9 +104,26 @@ public class GrowSceneManager : MonoBehaviour
             // 周囲に建物がない場合は進化しない
             return null;
         }
-        // TODO:進化条件を満たす建物があるか確認
-        Debug.Log($"index:{index}の建物は進化条件を満たしています。");
+        // 進化条件を満たす建物があるか確認
+        foreach(var evoData in evolutionDatabase.evolutionDatas)
+        {
+            if(evoData.basePlace == currentPlace)
+            {
+                bool isMatch = true;
+                foreach(var reqPlace in CheckPlaceList)
+                {
+                    if(!CheckPlaceList.Contains(evoData.resourcePlace))
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                }
+                if(isMatch)
+                {
+                    return evoData;
+                }
+            }
+        }
         return null;
-        return placeDatabase.GetPlaceData(PlaceKey.Ice_city);
     }
 }

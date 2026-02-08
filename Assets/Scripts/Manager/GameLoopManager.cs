@@ -11,6 +11,7 @@ public class GameLoopManager : MonoBehaviour
     [SerializeField] HUDObjectManager hudManager;
     [SerializeField] PlaceDatabase placeDatabase;
     [SerializeField] AskSceneManager askSceneManager;
+    [SerializeField] ResultSceneManager resultSceneManager;
 
     public static int score = 0;
     public static float bonusMultiplier = 1;
@@ -30,7 +31,7 @@ public class GameLoopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"現在は{StateManager.status.ToString()}です。");
+        //Debug.Log($"現在は{StateManager.status.ToString()}です。");
         switch (StateManager.status)
         {
             case GameState.Title:
@@ -107,6 +108,7 @@ public class GameLoopManager : MonoBehaviour
                 break;
             case GameState.Result:
                 // 結果画面に切り替えたときの処理
+                resultSceneManager.Init();
                 uILayerManager.OnUILayer(UILayer.Result);
                 break;
         }

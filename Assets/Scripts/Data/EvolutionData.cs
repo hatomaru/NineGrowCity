@@ -10,4 +10,5 @@ public class EvolutionData : ScriptableObject
     public PlaceData resourcePlace;
     public PlaceData toPlace;
     public string reason;
+    public float ava;
 }
