@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameLoopManager : MonoBehaviour
 {
-    public const int kMaxTurn = 3;
+    public const int kMaxTurn = 9;
 
     [SerializeField] UILayerManager uILayerManager;
     [SerializeField] AIBridge aiBridge;
@@ -10,6 +10,7 @@ public class GameLoopManager : MonoBehaviour
     [SerializeField] GrowSceneManager growSceneManager;
     [SerializeField] HUDObjectManager hudManager;
     [SerializeField] PlaceDatabase placeDatabase;
+    [SerializeField] AskSceneManager askSceneManager;
 
     public static int score = 0;
     public static float bonusMultiplier = 1;
@@ -18,7 +19,8 @@ public class GameLoopManager : MonoBehaviour
     public static int beforeScore = 0;
     public static float beforeBonusMultiplier = 1;
 
-    string setGenre = "";
+    int setGenre = 0;
+
     void Start()
     {
         // 初期状態をタイトルに設定
@@ -85,15 +87,16 @@ public class GameLoopManager : MonoBehaviour
             case GameState.Ask:
                 Debug.Log("質問画面に切り替えます。");
                 // 質問画面に切り替えたときの処理
+                askSceneManager.Init();
                 uILayerManager.OnUILayer(UILayer.Ask);
                 break;
             case GameState.Generate:
                 // 生成画面に切り替えたときの処理                
                 uILayerManager.OffUILayer(UILayer.Ask);
                 uILayerManager.OnUILayer(UILayer.Generate);
-                setGenre = await aiBridge.GenCityGenre(destroyCancellationToken);
+                setGenre = await aiBridge.GenCityGenre(destroyCancellationToken, askSceneManager.GetInput());
                 // 街を生成
-                await cityManager.GenCity(destroyCancellationToken, placeDatabase.GetPlaceData(PlaceKey.Forest));
+                await cityManager.GenCity(destroyCancellationToken, placeDatabase.GetPlaceData((PlaceKey)setGenre));
                 ToNextStatus();
                 break;
             case GameState.Grow:

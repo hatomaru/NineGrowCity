@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlaceDatabase : MonoBehaviour
 {
-    [SerializeField] PlaceData[] placeDatas;
+    public PlaceData[] placeDatas;
 
     /// <summary>
     /// 指定したキーに対応する建物データを取得する

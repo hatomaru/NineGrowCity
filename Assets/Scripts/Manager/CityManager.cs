@@ -45,7 +45,7 @@ public class CityManager : MonoBehaviour
             Debug.LogError($"指定された都市エリアのインデックスが不正です。：{selectCity}");
             return;
         }
-        await cityPlaces[selectCity].GenCity(token, testCity);
+        await cityPlaces[selectCity].GenCity(token, data);
         selectCity++;
     }
 
@@ -55,13 +55,13 @@ public class CityManager : MonoBehaviour
     /// <param name="target">成長させる建物</param>
     /// <param name="data">建物のデータ</param>
     /// <returns></returns>
-    public async UniTask GrowCity(CancellationToken token, int target, PlaceData placeData)
+    public async UniTask GrowCity(CancellationToken token, int target, PlaceData data)
     {
         if (!isEnableArea(target))
         {
             return;
         }
-        await cityPlaces[target].GenCity(token, placeData);
+        await cityPlaces[target].GenCity(token, data);
     }
 
     /// <summary>
