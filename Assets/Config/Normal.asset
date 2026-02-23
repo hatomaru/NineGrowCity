@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: c3cf0effe4d08a84fab33834f84edfcb, type: 3}
   m_Name: Normal
-  m_EditorClassIdentifier: AIDrivenFW::GenAIConfig
-  ModelName: Auto
-  sysPrompt: "\u4E0E\u3048\u305F\u5165\u529B\u304B\u3089\u30D7\u30EC\u30A4\u30E4\u30FC\u3092\u697D\u3057\u307E\u305B\u308B\u4E00\u6587\u3092{lang}\u3067\u51FA\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002"
+  m_EditorClassIdentifier: AIFW.Core::GenAIConfig
+  aiSoftwarePath: 
+  modelFilePath: Auto
+  sysPrompt: 
   arguments: --gpu-layers 80 --batch-size 16 --prio 2 --keep 0 -cnv
