@@ -55,8 +55,16 @@ public class AIBridge : MonoBehaviour
     public async UniTask<string> GenReasone(CancellationToken token, string input)
     { 
         reasonConfig.sysPrompt = $" Just comment briefly. Response English";
-        reasonConfig.sysPrompt = $"You are an observer AI describing the result of city growth.Do not explain.\rgenerate a single short comment." +
-            $"\r\nRespond in Japanese";
+        reasonConfig.sysPrompt = $"You are an observer AI describing the result of city growth.Do not explain.\rgenerate a single short comment.";
+        switch(LocalizationManager.GetCurrentLanguage())
+        {
+            case "en":
+                reasonConfig.sysPrompt += $"Respond in English";
+                break;
+            case "ja":
+                reasonConfig.sysPrompt += $"Respond in Japanese";
+                break;
+        }
         genAI.KillProcess();
         string response = await genAI.Generate(
             input,
