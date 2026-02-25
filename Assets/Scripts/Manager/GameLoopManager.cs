@@ -64,6 +64,14 @@ public class GameLoopManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ゲームを終了する
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    /// <summary>
     /// ゲーム開始時の処理
     /// </summary>
     public async void OnGameStaet()
