@@ -3,9 +3,7 @@
 Nine GrowCity is a small experimental game currently under development.  
 This project is being built as a **demo game for a local LLM framework**, exploring how AI-driven decisions and language can be translated into game progression within a limited number of turns.
 
-This submission is shared as a draft prototype.
-Due to time constraints and platform-specific issues,
-the build is not finalized.
+This submission is shared as a prototype.
 
 ---
 
