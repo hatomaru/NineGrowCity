@@ -12,15 +12,21 @@ public class CityManager : MonoBehaviour
     [SerializeField] AIBridge aiBridge;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        foreach (var cityPlace in cityPlaces)
+        AIDriven_AISetupHandler.onPreparationFinished += (bool isFinished) =>
         {
-            if (Random.Range(0, 2) == 0)
+            if (isFinished)
             {
-                cityPlace.GenCity(destroyCancellationToken, testCity).Forget();
+                foreach (var cityPlace in cityPlaces)
+                {
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        cityPlace.GenCity(destroyCancellationToken, testCity).Forget();
+                    }
+                }
             }
-        }
+        };
     }
 
     public async UniTask AllHideCity(CancellationToken token)

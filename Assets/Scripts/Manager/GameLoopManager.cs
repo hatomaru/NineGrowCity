@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameLoopManager : MonoBehaviour
@@ -22,10 +24,19 @@ public class GameLoopManager : MonoBehaviour
 
     int setGenre = 0;
 
-    void Start()
+    async void Start()
     {
-        // 初期状態をタイトルに設定
-        ChangeStatus(GameState.Title);
+        uILayerManager.AllOffUILayer();
+        AIDriven_AISetupHandler.onPreparationFinished += (bool isFinished) =>
+        {
+            if (isFinished)
+            {
+                Debug.Log("AIの準備が完了しました。");
+                // 初期状態をタイトルに設定
+                ChangeStatus(GameState.Title);
+            }
+        };
+        await AIDriven_AISetupHandler.Initialize();
     }
 
     // Update is called once per frame
